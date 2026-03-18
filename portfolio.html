@@ -1,0 +1,921 @@
+<!doctype html>
+<html lang="en" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Developer | Dhruv</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&amp;family=Space+Mono:wght@400;700&amp;family=DM+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>@font-face { font-family: 'Arial Rounded'; src: url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap'); }</style>
+  <style>
+  html, body { height: 100%; margin: 0; padding: 0; }
+  * { box-sizing: border-box; }
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: #0a0a0f; }
+  ::-webkit-scrollbar-thumb { background: #2a2a3a; border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: #3a3a4a; }
+
+  .portfolio-wrapper {
+    font-family: 'Fredoka', 'Arial Rounded MT', 'DM Sans', sans-serif;
+    background: #08080e;
+    color: #e8e8f0;
+    min-height: 100%;
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .font-display { font-family: 'Fredoka', 'Arial Rounded MT', sans-serif; }
+  .font-mono { font-family: 'Space Mono', monospace; }
+  .portfolio-wrapper { font-family: 'Fredoka', 'Arial Rounded MT', 'DM Sans', sans-serif; }
+
+  /* Animated gradient background */
+  .hero-bg {
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-bg::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(ellipse at 30% 20%, rgba(0, 210, 255, 0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 60%, rgba(140, 80, 255, 0.05) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 90%, rgba(0, 210, 255, 0.03) 0%, transparent 40%);
+    animation: bgDrift 20s ease-in-out infinite;
+    pointer-events: none;
+  }
+  @keyframes bgDrift {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    25% { transform: translate(2%, -1%) rotate(0.5deg); }
+    50% { transform: translate(-1%, 2%) rotate(-0.5deg); }
+    75% { transform: translate(1%, -2%) rotate(0.3deg); }
+  }
+
+  /* Floating particles */
+  .particle {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0;
+    animation: particleFloat linear infinite;
+  }
+  @keyframes particleFloat {
+    0% { opacity: 0; transform: translateY(0) scale(0); }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { opacity: 0; transform: translateY(-400px) scale(1); }
+  }
+
+  /* Grid pattern overlay */
+  .grid-overlay {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+  }
+
+  /* Glassmorphism */
+  .glass {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 16px;
+  }
+  .glass-nav {
+    background: rgba(8, 8, 14, 0.85);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  /* Glow effects */
+  .glow-cyan { box-shadow: 0 0 30px rgba(0, 210, 255, 0.08), inset 0 0 30px rgba(0, 210, 255, 0.02); }
+  .glow-purple { box-shadow: 0 0 30px rgba(140, 80, 255, 0.08), inset 0 0 30px rgba(140, 80, 255, 0.02); }
+  .glow-mixed { box-shadow: 0 0 30px rgba(0, 210, 255, 0.06), 0 0 60px rgba(140, 80, 255, 0.04); }
+
+  .card-hover {
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  .card-hover:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 0 40px rgba(0, 210, 255, 0.12), 0 20px 60px rgba(0, 0, 0, 0.4);
+    border-color: rgba(0, 210, 255, 0.15);
+  }
+
+  /* Button styles */
+  .btn-primary {
+    background: linear-gradient(135deg, rgba(0, 210, 255, 0.15), rgba(140, 80, 255, 0.15));
+    border: 1px solid rgba(0, 210, 255, 0.25);
+    color: #e8e8f0;
+    padding: 14px 32px;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    letter-spacing: 0.3px;
+  }
+  .btn-primary:hover {
+    box-shadow: 0 0 35px rgba(0, 210, 255, 0.2), 0 0 70px rgba(140, 80, 255, 0.1);
+    border-color: rgba(0, 210, 255, 0.5);
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, rgba(0, 210, 255, 0.25), rgba(140, 80, 255, 0.25));
+  }
+  .btn-secondary {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #a8a8b8;
+    padding: 14px 32px;
+    border-radius: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+  }
+  .btn-secondary:hover {
+    border-color: rgba(140, 80, 255, 0.4);
+    color: #e8e8f0;
+    box-shadow: 0 0 25px rgba(140, 80, 255, 0.1);
+    transform: translateY(-2px);
+  }
+
+  /* Scroll reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Stagger delays */
+  .delay-1 { transition-delay: 0.1s; }
+  .delay-2 { transition-delay: 0.2s; }
+  .delay-3 { transition-delay: 0.3s; }
+  .delay-4 { transition-delay: 0.4s; }
+
+  /* Nav active indicator */
+  .nav-link {
+    position: relative;
+    color: #888898;
+    transition: color 0.3s ease;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    padding: 8px 0;
+  }
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #00d2ff, #8c50ff);
+    transition: width 0.3s ease;
+    border-radius: 1px;
+  }
+  .nav-link:hover, .nav-link.active {
+    color: #e8e8f0;
+  }
+  .nav-link.active::after, .nav-link:hover::after {
+    width: 100%;
+  }
+
+  /* Tag pills */
+  .tag {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    border: 1px solid;
+  }
+  .tag-cyan { color: #00d2ff; border-color: rgba(0, 210, 255, 0.25); background: rgba(0, 210, 255, 0.06); }
+  .tag-purple { color: #a878ff; border-color: rgba(140, 80, 255, 0.25); background: rgba(140, 80, 255, 0.06); }
+  .tag-white { color: #c8c8d8; border-color: rgba(255, 255, 255, 0.12); background: rgba(255, 255, 255, 0.03); }
+
+  /* Expand panel */
+  .expand-panel {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s cubic-bezier(0.23, 1, 0.32, 1), padding 0.5s ease;
+    padding: 0 20px;
+  }
+  .expand-panel.open {
+    max-height: 500px;
+    padding: 16px 20px 20px;
+  }
+
+  /* Section divider */
+  .section-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0, 210, 255, 0.15), rgba(140, 80, 255, 0.15), transparent);
+    margin: 0 auto;
+    max-width: 600px;
+  }
+
+  /* Typing cursor */
+  .typing-cursor::after {
+    content: '|';
+    animation: blink 1s step-end infinite;
+    color: #00d2ff;
+    font-weight: 300;
+  }
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  /* Hero name gradient */
+  .name-gradient {
+    background: linear-gradient(135deg, #ffffff 0%, #00d2ff 50%, #a878ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Focus styles */
+  button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible {
+    outline: 2px solid #00d2ff;
+    outline-offset: 2px;
+  }
+
+  /* Contact form */
+  .form-input {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 14px 18px;
+    color: #e8e8f0;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    width: 100%;
+  }
+  .form-input:focus {
+    outline: none;
+    border-color: rgba(0, 210, 255, 0.35);
+    box-shadow: 0 0 20px rgba(0, 210, 255, 0.08);
+  }
+  .form-input::placeholder { color: #555568; }
+
+  /* Skill bar */
+  .skill-bar-bg {
+    height: 4px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .skill-bar-fill {
+    height: 100%;
+    border-radius: 2px;
+    width: 0;
+    transition: width 1.2s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  /* Mobile menu */
+  .mobile-menu {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 280px;
+    height: 100%;
+    background: rgba(8, 8, 14, 0.98);
+    backdrop-filter: blur(30px);
+    z-index: 60;
+    transition: right 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    border-left: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 80px 40px 40px;
+  }
+  .mobile-menu.open { right: 0; }
+  .mobile-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 55;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+  }
+  .mobile-overlay.open { opacity: 1; visibility: visible; }
+</style>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full" style="margin:0;padding:0;">
+  <div class="portfolio-wrapper" id="app-wrapper">
+   <!-- Navbar -->
+   <nav class="glass-nav fixed top-0 left-0 w-full z-50" id="main-nav" role="navigation" aria-label="Main navigation">
+    <div class="max-w-6xl mx-auto px-6 flex items-center justify-between" style="height:64px;">
+     <a href="#" class="font-display font-bold text-lg tracking-tight" style="color:#e8e8f0;text-decoration:none;" id="nav-logo" onclick="navigateTo('home');return false;"> <span style="color:#00d2ff;">{'</span><span id="nav-name-display">Dev</span><span style="color:#8c50ff;">'}</span> </a>
+     <div class="hidden md:flex items-center gap-8">
+      <a href="#" class="nav-link active" data-page="home" onclick="navigateTo('home');return false;">Home</a> <a href="#" class="nav-link" data-page="projects" onclick="navigateTo('projects');return false;">Projects</a> <a href="#" class="nav-link" data-page="about" onclick="navigateTo('about');return false;">About &amp; Contact</a>
+     </div><button class="md:hidden" onclick="toggleMobileMenu()" aria-label="Toggle menu" style="background:none;border:none;color:#e8e8f0;cursor:pointer;"> <i data-lucide="menu" style="width:24px;height:24px;" id="menu-icon"></i> </button>
+    </div>
+   </nav><!-- Mobile Menu -->
+   <div class="mobile-overlay" id="mobile-overlay" onclick="toggleMobileMenu()"></div>
+   <div class="mobile-menu" id="mobile-menu" role="navigation" aria-label="Mobile navigation">
+    <button onclick="toggleMobileMenu()" style="position:absolute;top:20px;right:20px;background:none;border:none;color:#888;cursor:pointer;" aria-label="Close menu"> <i data-lucide="x" style="width:24px;height:24px;"></i> </button>
+    <div class="flex flex-col gap-6">
+     <a href="#" class="nav-link active font-display text-lg" data-page="home" onclick="navigateTo('home');toggleMobileMenu();return false;">Home</a> <a href="#" class="nav-link font-display text-lg" data-page="projects" onclick="navigateTo('projects');toggleMobileMenu();return false;">Projects</a> <a href="#" class="nav-link font-display text-lg" data-page="about" onclick="navigateTo('about');toggleMobileMenu();return false;">About &amp; Contact</a>
+    </div>
+   </div><!-- ========== HOME PAGE ========== -->
+   <main id="page-home" class="page-content" role="main">
+    <!-- Hero -->
+    <section class="hero-bg" style="padding:140px 24px 80px;position:relative;min-height:85%;">
+     <div class="grid-overlay"></div>
+     <div id="particles-container" style="position:absolute;inset:0;overflow:hidden;pointer-events:none;"></div>
+     <div class="max-w-4xl mx-auto text-center relative" style="z-index:2;">
+      <div class="reveal delay-1">
+       <p class="font-mono text-xs tracking-widest" style="color:#00d2ff;margin-bottom:20px;text-transform:uppercase;">Welcome to my portfolio</p>
+      </div>
+      <div class="reveal delay-2">
+       <h1 class="font-display font-extrabold name-gradient" id="hero-name" style="font-size:clamp(42px,8vw,80px);line-height:1.05;margin:0 0 20px;">Portfolio</h1>
+      </div>
+      <div class="reveal delay-2">
+       <p class="font-display font-medium" id="hero-subtitle" style="font-size:clamp(18px,3vw,26px);color:#a8a8c0;margin-bottom:28px;">Student Programmer &amp; Developer</p>
+      </div>
+      <div class="reveal delay-3">
+       <p id="hero-intro" style="max-width:640px;margin:0 auto 16px;color:#7a7a90;font-size:16px;line-height:1.75;">A motivated student programmer skilled in modern web development, Python programming, Java applications, and AI-powered development tools.</p>
+      </div>
+      <div class="reveal delay-3">
+       <p style="max-width:580px;margin:0 auto 44px;color:#5a5a70;font-size:14px;line-height:1.7;">I build responsive websites, programming projects, AI-assisted applications, and logic-based systems.</p>
+      </div>
+      <div class="reveal delay-4 flex flex-wrap justify-center gap-4">
+       <button class="btn-primary" onclick="navigateTo('projects')"> <span style="display:inline-flex;align-items:center;gap:8px;"> <i data-lucide="folder-open" style="width:16px;height:16px;"></i> View Projects </span> </button> <button class="btn-secondary" onclick="navigateTo('about')"> <span style="display:inline-flex;align-items:center;gap:8px;"> <i data-lucide="send" style="width:16px;height:16px;"></i> Contact Me </span> </button>
+      </div>
+      <div class="reveal delay-4" style="margin-top:60px;padding-top:40px;border-top:1px solid rgba(255,255,255,0.05);">
+       <p class="font-display" id="hero-quote" style="font-size:clamp(16px,2vw,22px);font-style:italic;color:#a878ff;line-height:1.8;margin:0;max-width:600px;margin-left:auto;margin-right:auto;text-align:center;">✨ "Code is poetry written in logic" ✨</p>
+      </div>
+     </div>
+    </section><!-- Section divider -->
+    <div class="section-divider" style="margin:20px auto 60px;"></div><!-- Skill Cards Section -->
+    <section style="padding:20px 24px 100px;">
+     <div class="max-w-6xl mx-auto">
+      <div class="text-center reveal" style="margin-bottom:60px;">
+       <p class="font-mono text-xs tracking-widest" style="color:#8c50ff;text-transform:uppercase;margin-bottom:12px;">What I Do</p>
+       <h2 class="font-display font-bold" style="font-size:clamp(28px,4vw,40px);margin:0;">Core Expertise</h2>
+      </div>
+      <div class="grid gap-6" style="grid-template-columns:repeat(auto-fit,minmax(300px,1fr));">
+       <!-- Card 1: AI Development -->
+       <div class="glass glow-purple card-hover reveal delay-1" style="padding:36px 28px;">
+        <div style="width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:24px;background:rgba(140,80,255,0.1);border:1px solid rgba(140,80,255,0.2);">
+         <i data-lucide="sparkles" style="width:22px;height:22px;color:#a878ff;"></i>
+        </div>
+        <h3 class="font-display font-bold" style="font-size:20px;margin:0 0 12px;">AI Development &amp; Vibe Coding</h3>
+        <p style="color:#7a7a90;font-size:14px;line-height:1.7;margin:0 0 20px;">Leveraging cutting-edge AI tools like <span style="color:#a878ff;">Lovable</span>, <span style="color:#a878ff;">Bolt</span>, and <span style="color:#a878ff;">Emergent</span> for AI-assisted project development and modern vibe coding workflows.</p>
+        <div class="flex flex-wrap gap-2">
+         <span class="tag tag-purple">Prompt Engineering</span> <span class="tag tag-purple">AI Generation</span> <span class="tag tag-white">Modern Workflow</span>
+        </div>
+       </div><!-- Card 2: Programming -->
+       <div class="glass glow-cyan card-hover reveal delay-2" style="padding:36px 28px;">
+        <div style="width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:24px;background:rgba(0,210,255,0.1);border:1px solid rgba(0,210,255,0.2);">
+         <i data-lucide="terminal" style="width:22px;height:22px;color:#00d2ff;"></i>
+        </div>
+        <h3 class="font-display font-bold" style="font-size:20px;margin:0 0 12px;">Programming Languages</h3>
+        <p style="color:#7a7a90;font-size:14px;line-height:1.7;margin:0 0 20px;">Building applications with <span style="color:#00d2ff;">Python</span> and <span style="color:#00d2ff;">Java</span> — from quiz programs to logic-driven systems using conditionals, loops, functions, and problem-solving patterns.</p>
+        <div class="flex flex-wrap gap-2">
+         <span class="tag tag-cyan">Python</span> <span class="tag tag-cyan">Java</span> <span class="tag tag-white">Problem Solving</span> <span class="tag tag-white">Logic</span>
+        </div>
+       </div><!-- Card 3: Web Dev -->
+       <div class="glass glow-mixed card-hover reveal delay-3" style="padding:36px 28px;">
+        <div style="width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:24px;background:linear-gradient(135deg,rgba(0,210,255,0.1),rgba(140,80,255,0.1));border:1px solid rgba(0,210,255,0.15);">
+         <i data-lucide="code-2" style="width:22px;height:22px;color:#00d2ff;"></i>
+        </div>
+        <h3 class="font-display font-bold" style="font-size:20px;margin:0 0 12px;">Web Development</h3>
+        <p style="color:#7a7a90;font-size:14px;line-height:1.7;margin:0 0 20px;">Crafting responsive, animated, and interactive web experiences with <span style="color:#00d2ff;">HTML</span>, <span style="color:#a878ff;">CSS</span>, and <span style="color:#00d2ff;">JavaScript</span> — including the Sukiko Uchiha fictional portfolio project.</p>
+        <div class="flex flex-wrap gap-2">
+         <span class="tag tag-cyan">HTML</span> <span class="tag tag-purple">CSS</span> <span class="tag tag-cyan">JavaScript</span> <span class="tag tag-white">Responsive</span>
+        </div>
+       </div>
+      </div>
+     </div>
+    </section>
+   </main><!-- ========== PROJECTS PAGE ========== -->
+   <main id="page-projects" class="page-content" style="display:none;" role="main">
+    <section class="hero-bg" style="padding:120px 24px 60px;position:relative;">
+     <div class="grid-overlay"></div>
+     <div class="max-w-4xl mx-auto text-center relative" style="z-index:2;">
+      <div class="reveal">
+       <p class="font-mono text-xs tracking-widest" style="color:#00d2ff;text-transform:uppercase;margin-bottom:12px;">My Work</p>
+       <h1 class="font-display font-extrabold" style="font-size:clamp(32px,5vw,52px);margin:0 0 16px;">Projects</h1>
+       <p style="color:#7a7a90;max-width:500px;margin:0 auto;font-size:15px;line-height:1.7;">A selection of projects showcasing web development, programming, and AI-assisted workflows.</p>
+      </div>
+     </div>
+    </section>
+    <section style="padding:40px 24px 60px;">
+     <div class="max-w-5xl mx-auto grid gap-6" style="grid-template-columns:repeat(auto-fit,minmax(320px,1fr));">
+      <!-- Project 1 -->
+      <div class="glass glow-purple card-hover reveal delay-1" id="proj-1" style="overflow:hidden;">
+       <div style="padding:32px 28px 20px;">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+         <div style="width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:rgba(140,80,255,0.12);border:1px solid rgba(140,80,255,0.2);">
+          <i data-lucide="user-circle" style="width:20px;height:20px;color:#a878ff;"></i>
+         </div>
+         <div>
+          <h3 class="font-display font-bold" style="font-size:18px;margin:0;">Sukiko Uchiha Portfolio</h3>
+          <p class="font-mono" style="font-size:11px;color:#5a5a70;margin:2px 0 0;">Fictional Character Website</p>
+         </div>
+        </div>
+        <p style="color:#7a7a90;font-size:14px;line-height:1.7;margin:0 0 16px;">A fictional character portfolio website built using modern layout techniques, featuring responsive design, hero sections, and smooth animations.</p>
+        <div class="flex flex-wrap gap-2" style="margin-bottom:16px;">
+         <span class="tag tag-cyan">HTML</span> <span class="tag tag-purple">CSS</span> <span class="tag tag-white">Responsive</span> <span class="tag tag-white">Animation</span>
+        </div><button onclick="toggleExpand('proj-1-details')" class="font-mono" style="background:none;border:none;color:#a878ff;cursor:pointer;font-size:12px;display:flex;align-items:center;gap:6px;padding:0;"> <i data-lucide="chevron-down" style="width:14px;height:14px;" class="expand-icon"></i> View Details </button>
+       </div>
+       <div class="expand-panel" id="proj-1-details">
+        <div style="border-top:1px solid rgba(255,255,255,0.05);padding-top:16px;">
+         <p style="font-size:12px;color:#5a5a70;text-transform:uppercase;letter-spacing:1px;margin:0 0 8px;font-weight:600;">Key Concepts</p>
+         <ul style="color:#7a7a90;font-size:13px;line-height:1.8;margin:0;padding-left:18px;">
+          <li>Responsive design with media queries</li>
+          <li>Hero section with visual hierarchy</li>
+          <li>CSS animations &amp; transitions</li>
+          <li>Clean layout structure</li>
+         </ul>
+        </div>
+       </div>
+      </div><!-- Project 2 -->
+      <div class="glass glow-cyan card-hover reveal delay-2" id="proj-2" style="overflow:hidden;">
+       <div style="padding:32px 28px 20px;">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+         <div style="width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:rgba(0,210,255,0.12);border:1px solid rgba(0,210,255,0.2);">
+          <i data-lucide="brain" style="width:20px;height:20px;color:#00d2ff;"></i>
+         </div>
+         <div>
+          <h3 class="font-display font-bold" style="font-size:18px;margin:0;">Python Quiz Program</h3>
+          <p class="font-mono" style="font-size:11px;color:#5a5a70;margin:2px 0 0;">Logic-Based Application</p>
+         </div>
+        </div>
+        <p style="color:#7a7a90;font-size:14px;line-height:1.7;margin:0 0 16px;">A logic-based quiz application built with Python, featuring scoring systems, input handling, and structured conditional logic.</p>
+        <div class="flex flex-wrap gap-2" style="margin-bottom:16px;">
+         <span class="tag tag-cyan">Python</span> <span class="tag tag-white">If/Else</span> <span class="tag tag-white">Loops</span> <span class="tag tag-white">Scoring</span>
+        </div><button onclick="toggleExpand('proj-2-details')" class="font-mono" style="background:none;border:none;color:#00d2ff;cursor:pointer;font-size:12px;display:flex;align-items:center;gap:6px;padding:0;"> <i data-lucide="chevron-down" style="width:14px;height:14px;" class="expand-icon"></i> View Details </button>
+       </div>
+       <div class="expand-panel" id="proj-2-details">
+        <div style="border-top:1px solid rgba(255,255,255,0.05);padding-top:16px;">
+         <p style="font-size:12px;color:#5a5a70;text-transform:uppercase;letter-spacing:1px;margin:0 0 8px;font-weight:600;">Key Concepts</p>
+         <ul style="color:#7a7a90;font-size:13px;line-height:1.8;margin:0;padding-left:18px;">
+          <li>If/else conditional logic</li>
+          <li>Loop-based question flow</li>
+          <li>Scoring system with tracking</li>
+          <li>User input handling &amp; validation</li>
+         </ul>
+        </div>
+       </div>
+      </div><!-- Project 3 -->
+      <div class="glass glow-purple card-hover reveal delay-3" id="proj-3" style="overflow:hidden;">
+       <div style="padding:32px 28px 20px;">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+         <div style="width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:rgba(140,80,255,0.12);border:1px solid rgba(140,80,255,0.2);">
+          <i data-lucide="coffee" style="width:20px;height:20px;color:#a878ff;"></i>
+         </div>
+         <div>
+          <h3 class="font-display font-bold" style="font-size:18px;margin:0;">Java Quiz Application</h3>
+          <p class="font-mono" style="font-size:11px;color:#5a5a70;margin:2px 0 0;">Structured Logic Program</p>
+         </div>
+        </div>
+        <p style="color:#7a7a90;font-size:14px;line-height:1.7;margin:0 0 16px;">A Java-based quiz program with structured logic, utilizing object-oriented principles, methods, and conditional flows.</p>
+        <div class="flex flex-wrap gap-2" style="margin-bottom:16px;">
+         <span class="tag tag-purple">Java</span> <span class="tag tag-white">Methods</span> <span class="tag tag-white">Conditions</span> <span class="tag tag-white">OOP</span>
+        </div><button onclick="toggleExpand('proj-3-details')" class="font-mono" style="background:none;border:none;color:#a878ff;cursor:pointer;font-size:12px;display:flex;align-items:center;gap:6px;padding:0;"> <i data-lucide="chevron-down" style="width:14px;height:14px;" class="expand-icon"></i> View Details </button>
+       </div>
+       <div class="expand-panel" id="proj-3-details">
+        <div style="border-top:1px solid rgba(255,255,255,0.05);padding-top:16px;">
+         <p style="font-size:12px;color:#5a5a70;text-transform:uppercase;letter-spacing:1px;margin:0 0 8px;font-weight:600;">Key Concepts</p>
+         <ul style="color:#7a7a90;font-size:13px;line-height:1.8;margin:0;padding-left:18px;">
+          <li>Conditional statements &amp; branching</li>
+          <li>Method-based architecture</li>
+          <li>Object-oriented logic patterns</li>
+          <li>Structured program flow</li>
+         </ul>
+        </div>
+       </div>
+      </div><!-- Project 4 -->
+      <div class="glass glow-mixed card-hover reveal delay-4" id="proj-4" style="overflow:hidden;">
+       <div style="padding:32px 28px 20px;">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+         <div style="width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,rgba(0,210,255,0.12),rgba(140,80,255,0.12));border:1px solid rgba(0,210,255,0.15);">
+          <i data-lucide="layout" style="width:20px;height:20px;color:#00d2ff;"></i>
+         </div>
+         <div>
+          <h3 class="font-display font-bold" style="font-size:18px;margin:0;">JavaScript Web App</h3>
+          <p class="font-mono" style="font-size:11px;color:#5a5a70;margin:2px 0 0;">Interactive Frontend</p>
+         </div>
+        </div>
+        <p style="color:#7a7a90;font-size:14px;line-height:1.7;margin:0 0 16px;">An interactive frontend project using JavaScript for dynamic content rendering, DOM manipulation, and event-driven interactivity.</p>
+        <div class="flex flex-wrap gap-2" style="margin-bottom:16px;">
+         <span class="tag tag-cyan">JavaScript</span> <span class="tag tag-white">DOM</span> <span class="tag tag-white">Events</span> <span class="tag tag-white">Dynamic</span>
+        </div><button onclick="toggleExpand('proj-4-details')" class="font-mono" style="background:none;border:none;color:#00d2ff;cursor:pointer;font-size:12px;display:flex;align-items:center;gap:6px;padding:0;"> <i data-lucide="chevron-down" style="width:14px;height:14px;" class="expand-icon"></i> View Details </button>
+       </div>
+       <div class="expand-panel" id="proj-4-details">
+        <div style="border-top:1px solid rgba(255,255,255,0.05);padding-top:16px;">
+         <p style="font-size:12px;color:#5a5a70;text-transform:uppercase;letter-spacing:1px;margin:0 0 8px;font-weight:600;">Key Concepts</p>
+         <ul style="color:#7a7a90;font-size:13px;line-height:1.8;margin:0;padding-left:18px;">
+          <li>DOM manipulation &amp; traversal</li>
+          <li>Event listeners &amp; handlers</li>
+          <li>Dynamic content rendering</li>
+          <li>Interactive UI patterns</li>
+         </ul>
+        </div>
+       </div>
+      </div>
+     </div>
+    </section><!-- Fundamentals Section -->
+    <section style="padding:20px 24px 100px;">
+     <div class="max-w-4xl mx-auto">
+      <div class="section-divider" style="margin-bottom:60px;"></div>
+      <div class="text-center reveal" style="margin-bottom:40px;">
+       <p class="font-mono text-xs tracking-widest" style="color:#8c50ff;text-transform:uppercase;margin-bottom:12px;">Foundation</p>
+       <h2 class="font-display font-bold" style="font-size:clamp(24px,3.5vw,34px);margin:0;">Core Fundamentals</h2>
+      </div>
+      <div class="glass reveal" style="padding:32px 28px;">
+       <div class="grid gap-4" style="grid-template-columns:repeat(auto-fit,minmax(200px,1fr));">
+        <div style="display:flex;align-items:center;gap:10px;">
+         <i data-lucide="git-branch" style="width:16px;height:16px;color:#00d2ff;flex-shrink:0;"></i> <span style="color:#a8a8b8;font-size:14px;">If / Else Conditionals</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;">
+         <i data-lucide="repeat" style="width:16px;height:16px;color:#a878ff;flex-shrink:0;"></i> <span style="color:#a8a8b8;font-size:14px;">Loops &amp; Iteration</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;">
+         <i data-lucide="box" style="width:16px;height:16px;color:#00d2ff;flex-shrink:0;"></i> <span style="color:#a8a8b8;font-size:14px;">Functions &amp; Methods</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;">
+         <i data-lucide="layers" style="width:16px;height:16px;color:#a878ff;flex-shrink:0;"></i> <span style="color:#a8a8b8;font-size:14px;">Object-Oriented Logic</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;">
+         <i data-lucide="mouse-pointer" style="width:16px;height:16px;color:#00d2ff;flex-shrink:0;"></i> <span style="color:#a8a8b8;font-size:14px;">DOM Manipulation</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;">
+         <i data-lucide="zap" style="width:16px;height:16px;color:#a878ff;flex-shrink:0;"></i> <span style="color:#a8a8b8;font-size:14px;">Event-Driven Design</span>
+        </div>
+       </div>
+      </div>
+     </div>
+    </section>
+   </main><!-- ========== ABOUT / CONTACT PAGE ========== -->
+   <main id="page-about" class="page-content" style="display:none;" role="main">
+    <section class="hero-bg" style="padding:120px 24px 60px;position:relative;">
+     <div class="grid-overlay"></div>
+     <div class="max-w-4xl mx-auto text-center relative" style="z-index:2;">
+      <div class="reveal">
+       <p class="font-mono text-xs tracking-widest" style="color:#a878ff;text-transform:uppercase;margin-bottom:12px;">Get to Know Me</p>
+       <h1 class="font-display font-extrabold" style="font-size:clamp(32px,5vw,52px);margin:0 0 16px;">About &amp; Contact</h1>
+      </div>
+     </div>
+    </section><!-- About Section -->
+    <section style="padding:20px 24px 60px;">
+     <div class="max-w-5xl mx-auto grid gap-8" style="grid-template-columns:repeat(auto-fit,minmax(300px,1fr));">
+      <div class="glass reveal delay-1" style="padding:32px 28px;height:100%;">
+       <p class="font-mono text-xs tracking-widest" style="color:#00d2ff;text-transform:uppercase;margin-bottom:16px;">About Me</p>
+       <p style="color:#a8a8b8;font-size:15px;line-height:1.8;margin:0 0 20px;">I'm a student programmer passionate about building digital experiences. From responsive websites to logic-based programs, I enjoy bringing ideas to life through code.</p>
+       <p style="color:#7a7a90;font-size:14px;line-height:1.8;margin:0;">I work with modern AI tools like Lovable, Bolt, and Emergent for vibe coding, and I'm continuously expanding my skills in frontend development, Python, and Java.</p>
+      </div>
+      <div class="reveal delay-2">
+       <div class="glass" style="padding:32px 28px;height:100%;">
+        <p class="font-mono text-xs tracking-widest" style="color:#a878ff;text-transform:uppercase;margin-bottom:20px;">Skills</p>
+        <div class="flex flex-col gap-4">
+         <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+           <span style="font-size:13px;color:#c8c8d8;">HTML &amp; CSS</span> <span class="font-mono" style="font-size:11px;color:#00d2ff;">Advanced</span>
+          </div>
+          <div class="skill-bar-bg">
+           <div class="skill-bar-fill" data-width="92" style="background:linear-gradient(90deg,#00d2ff,#0090b8);"></div>
+          </div>
+         </div>
+         <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+           <span style="font-size:13px;color:#c8c8d8;">JavaScript</span> <span class="font-mono" style="font-size:11px;color:#00d2ff;">Advanced</span>
+          </div>
+          <div class="skill-bar-bg">
+           <div class="skill-bar-fill" data-width="88" style="background:linear-gradient(90deg,#00d2ff,#8c50ff);"></div>
+          </div>
+         </div>
+         <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+           <span style="font-size:13px;color:#c8c8d8;">Python</span> <span class="font-mono" style="font-size:11px;color:#a878ff;">Advanced</span>
+          </div>
+          <div class="skill-bar-bg">
+           <div class="skill-bar-fill" data-width="85" style="background:linear-gradient(90deg,#8c50ff,#a878ff);"></div>
+          </div>
+         </div>
+         <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+           <span style="font-size:13px;color:#c8c8d8;">Java</span> <span class="font-mono" style="font-size:11px;color:#a878ff;">Intermediate</span>
+          </div>
+          <div class="skill-bar-bg">
+           <div class="skill-bar-fill" data-width="65" style="background:linear-gradient(90deg,#a878ff,#6840c0);"></div>
+          </div>
+         </div>
+         <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+           <span style="font-size:13px;color:#c8c8d8;">AI &amp; Vibe Coding</span> <span class="font-mono" style="font-size:11px;color:#00d2ff;">Experienced</span>
+          </div>
+          <div class="skill-bar-bg">
+           <div class="skill-bar-fill" data-width="80" style="background:linear-gradient(90deg,#00d2ff,#a878ff);"></div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </section><!-- Stats Section -->
+    <section style="padding:40px 24px;">
+     <div class="max-w-4xl mx-auto">
+      <div class="section-divider" style="margin-bottom:60px;"></div>
+      <div class="grid gap-6" style="grid-template-columns:repeat(auto-fit,minmax(200px,1fr));">
+       <div class="glass reveal delay-1" style="padding:28px 24px;text-align:center;">
+        <p class="font-display font-bold" style="font-size:32px;margin:0;color:#00d2ff;">4+</p>
+        <p style="color:#7a7a90;font-size:13px;margin:8px 0 0;text-transform:uppercase;letter-spacing:0.8px;">Major Projects</p>
+       </div>
+       <div class="glass reveal delay-2" style="padding:28px 24px;text-align:center;">
+        <p class="font-display font-bold" style="font-size:32px;margin:0;color:#a878ff;">5</p>
+        <p style="color:#7a7a90;font-size:13px;margin:8px 0 0;text-transform:uppercase;letter-spacing:0.8px;">Languages Mastered</p>
+       </div>
+       <div class="glass reveal delay-3" style="padding:28px 24px;text-align:center;">
+        <p class="font-display font-bold" style="font-size:32px;margin:0;color:#00d2ff;">100%</p>
+        <p style="color:#7a7a90;font-size:13px;margin:8px 0 0;text-transform:uppercase;letter-spacing:0.8px;">Responsive Design</p>
+       </div>
+       <div class="glass reveal delay-4" style="padding:28px 24px;text-align:center;">
+        <p class="font-display font-bold" style="font-size:32px;margin:0;color:#a878ff;">AI Ready</p>
+        <p style="color:#7a7a90;font-size:13px;margin:8px 0 0;text-transform:uppercase;letter-spacing:0.8px;">Modern Workflow</p>
+       </div>
+      </div>
+     </div>
+    </section><!-- Contact Section -->
+    <section style="padding:20px 24px 100px;">
+     <div class="max-w-2xl mx-auto">
+      <div class="section-divider" style="margin-bottom:60px;"></div>
+      <div class="text-center reveal" style="margin-bottom:40px;">
+       <p class="font-mono text-xs tracking-widest" style="color:#00d2ff;text-transform:uppercase;margin-bottom:12px;">Get in Touch</p>
+       <h2 class="font-display font-bold" style="font-size:clamp(24px,3.5vw,34px);margin:0 0 8px;">Contact Me</h2>
+       <p style="color:#7a7a90;font-size:14px;">Have a project in mind or want to collaborate?</p>
+      </div>
+      <div class="glass reveal delay-1" style="padding:28px 24px;margin-bottom:24px;text-align:center;">
+       <p style="color:#7a7a90;font-size:13px;text-transform:uppercase;letter-spacing:1px;margin:0 0 12px;">📧 Email</p><a href="mailto:psinghdhruvendra@gmail.com" style="color:#00d2ff;font-size:16px;font-weight:600;text-decoration:none;transition:all 0.3s ease;" onmouseover="this.style.color='#a878ff'" onmouseout="this.style.color='#00d2ff'">psinghdhruvendra@gmail.com</a>
+      </div>
+      <div class="glass reveal delay-2" style="padding:28px 24px;margin-bottom:32px;text-align:center;">
+       <p style="color:#7a7a90;font-size:13px;text-transform:uppercase;letter-spacing:1px;margin:0 0 12px;">📱 Phone</p><a href="tel:+918840225959" style="color:#a878ff;font-size:16px;font-weight:600;text-decoration:none;transition:all 0.3s ease;" onmouseover="this.style.color='#00d2ff'" onmouseout="this.style.color='#a878ff'">+91 8840225959</a>
+      </div>
+      <div class="glass reveal delay-1" style="padding:36px 32px;">
+       <form id="contact-form" onsubmit="handleContactSubmit(event)">
+        <div class="flex flex-col gap-4">
+         <div>
+          <label for="contact-name" style="display:block;font-size:12px;color:#888898;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px;font-weight:600;">Name</label> <input type="text" id="contact-name" class="form-input" placeholder="Your name" required>
+         </div>
+         <div>
+          <label for="contact-email" style="display:block;font-size:12px;color:#888898;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px;font-weight:600;">Email</label> <input type="email" id="contact-email" class="form-input" placeholder="your@email.com" required>
+         </div>
+         <div>
+          <label for="contact-message" style="display:block;font-size:12px;color:#888898;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px;font-weight:600;">Message</label> <textarea id="contact-message" class="form-input" rows="4" placeholder="Tell me about your project..." required style="resize:vertical;min-height:100px;"></textarea>
+         </div><button type="submit" class="btn-primary" style="width:100%;margin-top:8px;" id="submit-btn"> <span style="display:inline-flex;align-items:center;gap:8px;"> <i data-lucide="send" style="width:16px;height:16px;"></i> Send Message </span> </button>
+         <div id="form-feedback" style="text-align:center;font-size:14px;min-height:24px;"></div>
+        </div>
+       </form>
+      </div>
+     </div>
+    </section>
+   </main><!-- Footer -->
+   <footer style="border-top:1px solid rgba(255,255,255,0.04);padding:32px 24px;">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+     <p class="font-mono" style="font-size:12px;color:#444458;margin:0;" id="footer-text">© 2025 All Rights Reserved</p>
+     <div style="display:flex;gap:8px;">
+      <span class="tag tag-cyan" style="font-size:10px;">HTML</span> <span class="tag tag-purple" style="font-size:10px;">CSS</span> <span class="tag tag-cyan" style="font-size:10px;">JS</span> <span class="tag tag-purple" style="font-size:10px;">Python</span> <span class="tag tag-white" style="font-size:10px;">Java</span>
+     </div>
+    </div>
+   </footer>
+  </div>
+  <script>
+// ===== CONFIG & SDK =====
+const defaultConfig = {
+  hero_name: 'Portfolio',
+  hero_subtitle: 'Student Programmer & Developer',
+  hero_intro: 'A motivated student programmer skilled in modern web development, Python programming, Java applications, and AI-powered development tools.',
+  hero_quote: '✨ "Code is poetry written in logic" ✨',
+  footer_text: '© 2025 All Rights Reserved',
+  background_color: '#08080e',
+  surface_color: 'rgba(255,255,255,0.03)',
+  text_color: '#e8e8f0',
+  primary_action_color: '#00d2ff',
+  secondary_action_color: '#a878ff',
+  font_family: 'Fredoka',
+  font_size: 16
+};
+
+let currentPage = 'home';
+
+function applyConfig(config) {
+  const c = { ...defaultConfig, ...config };
+
+  // Text content
+  document.getElementById('hero-name').textContent = c.hero_name;
+  document.getElementById('hero-subtitle').textContent = c.hero_subtitle;
+  document.getElementById('hero-intro').textContent = c.hero_intro;
+  document.getElementById('hero-quote').textContent = c.hero_quote;
+  document.getElementById('footer-text').textContent = c.footer_text;
+
+  // Colors
+  const wrapper = document.getElementById('app-wrapper');
+  wrapper.style.background = c.background_color;
+  wrapper.style.color = c.text_color;
+
+  // Font
+  const fontStack = `${c.font_family}, 'Fredoka', 'Arial Rounded MT', sans-serif`;
+  wrapper.style.fontFamily = fontStack;
+
+  // Font size scaling
+  const base = c.font_size || 16;
+  const heroName = document.getElementById('hero-name');
+  heroName.style.fontSize = `clamp(${base * 2.6}px, 8vw, ${base * 5}px)`;
+  const heroSub = document.getElementById('hero-subtitle');
+  heroSub.style.fontSize = `clamp(${base * 1.1}px, 3vw, ${base * 1.6}px)`;
+  document.getElementById('hero-intro').style.fontSize = `${base}px`;
+  document.getElementById('footer-text').style.fontSize = `${base * 0.75}px`;
+
+  // Apply accent colors to key elements
+  document.documentElement.style.setProperty('--cyan', c.primary_action_color);
+  document.documentElement.style.setProperty('--purple', c.secondary_action_color);
+  document.querySelectorAll('.tag-cyan').forEach(el => {
+    el.style.color = c.primary_action_color;
+    el.style.borderColor = c.primary_action_color + '40';
+    el.style.background = c.primary_action_color + '10';
+  });
+  document.querySelectorAll('.tag-purple').forEach(el => {
+    el.style.color = c.secondary_action_color;
+    el.style.borderColor = c.secondary_action_color + '40';
+    el.style.background = c.secondary_action_color + '10';
+  });
+}
+
+// Initialize Element SDK
+if (window.elementSdk) {
+  window.elementSdk.init({
+    defaultConfig,
+    onConfigChange: async (config) => { applyConfig(config); },
+    mapToCapabilities: (config) => ({
+      recolorables: [
+        { get: () => config.background_color || defaultConfig.background_color, set: (v) => { config.background_color = v; window.elementSdk.setConfig({ background_color: v }); } },
+        { get: () => config.surface_color || defaultConfig.surface_color, set: (v) => { config.surface_color = v; window.elementSdk.setConfig({ surface_color: v }); } },
+        { get: () => config.text_color || defaultConfig.text_color, set: (v) => { config.text_color = v; window.elementSdk.setConfig({ text_color: v }); } },
+        { get: () => config.primary_action_color || defaultConfig.primary_action_color, set: (v) => { config.primary_action_color = v; window.elementSdk.setConfig({ primary_action_color: v }); } },
+        { get: () => config.secondary_action_color || defaultConfig.secondary_action_color, set: (v) => { config.secondary_action_color = v; window.elementSdk.setConfig({ secondary_action_color: v }); } }
+      ],
+      borderables: [],
+      fontEditable: {
+        get: () => config.font_family || defaultConfig.font_family,
+        set: (v) => { config.font_family = v; window.elementSdk.setConfig({ font_family: v }); }
+      },
+      fontSizeable: {
+        get: () => config.font_size || defaultConfig.font_size,
+        set: (v) => { config.font_size = v; window.elementSdk.setConfig({ font_size: v }); }
+      }
+    }),
+    mapToEditPanelValues: (config) => new Map([
+      ['hero_name', config.hero_name || defaultConfig.hero_name],
+      ['hero_subtitle', config.hero_subtitle || defaultConfig.hero_subtitle],
+      ['hero_intro', config.hero_intro || defaultConfig.hero_intro],
+      ['hero_quote', config.hero_quote || defaultConfig.hero_quote],
+      ['footer_text', config.footer_text || defaultConfig.footer_text]
+    ])
+  });
+}
+
+// ===== NAVIGATION =====
+function navigateTo(page) {
+  document.querySelectorAll('.page-content').forEach(p => p.style.display = 'none');
+  document.getElementById('page-' + page).style.display = 'block';
+  currentPage = page;
+
+  // Update nav active states
+  document.querySelectorAll('.nav-link').forEach(l => {
+    l.classList.toggle('active', l.dataset.page === page);
+  });
+
+  // Scroll to top
+  document.getElementById('app-wrapper').scrollTop = 0;
+
+  // Re-trigger reveals & skill bars
+  setTimeout(() => {
+    triggerReveals();
+    animateSkillBars();
+    lucide.createIcons();
+  }, 100);
+}
+
+// ===== MOBILE MENU =====
+function toggleMobileMenu() {
+  document.getElementById('mobile-menu').classList.toggle('open');
+  document.getElementById('mobile-overlay').classList.toggle('open');
+}
+
+// ===== EXPAND PANELS =====
+function toggleExpand(id) {
+  const panel = document.getElementById(id);
+  panel.classList.toggle('open');
+  const btn = panel.previousElementSibling.querySelector('.expand-icon');
+  if (btn) {
+    btn.style.transform = panel.classList.contains('open') ? 'rotate(180deg)' : 'rotate(0)';
+    btn.style.transition = 'transform 0.3s ease';
+  }
+}
+
+// ===== SCROLL REVEAL =====
+function triggerReveals() {
+  const wrapper = document.getElementById('app-wrapper');
+  const reveals = document.querySelectorAll('.reveal');
+  reveals.forEach(el => {
+    if (el.closest('.page-content')?.style.display === 'none') return;
+    const rect = el.getBoundingClientRect();
+    const wrapperRect = wrapper.getBoundingClientRect();
+    if (rect.top < wrapperRect.bottom - 60) {
+      el.classList.add('visible');
+    }
+  });
+}
+
+// ===== SKILL BARS =====
+function animateSkillBars() {
+  document.querySelectorAll('.skill-bar-fill').forEach(bar => {
+    const w = bar.dataset.width;
+    if (bar.closest('.page-content')?.style.display !== 'none') {
+      setTimeout(() => { bar.style.width = w + '%'; }, 400);
+    }
+  });
+}
+
+// ===== PARTICLES =====
+function createParticles() {
+  const container = document.getElementById('particles-container');
+  if (!container) return;
+  for (let i = 0; i < 20; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const size = Math.random() * 3 + 1;
+    const colors = ['rgba(0,210,255,0.4)', 'rgba(140,80,255,0.4)', 'rgba(255,255,255,0.2)'];
+    p.style.cssText = `
+      width:${size}px;height:${size}px;
+      left:${Math.random()*100}%;
+      bottom:${-Math.random()*100}px;
+      background:${colors[Math.floor(Math.random()*3)]};
+      animation-duration:${Math.random()*8+6}s;
+      animation-delay:${Math.random()*8}s;
+    `;
+    container.appendChild(p);
+  }
+}
+
+// ===== CONTACT FORM =====
+function handleContactSubmit(e) {
+  e.preventDefault();
+  const btn = document.getElementById('submit-btn');
+  const feedback = document.getElementById('form-feedback');
+  btn.disabled = true;
+  btn.style.opacity = '0.6';
+  btn.innerHTML = '<span style="display:inline-flex;align-items:center;gap:8px;"><i data-lucide="loader" style="width:16px;height:16px;animation:spin 1s linear infinite;"></i> Sending...</span>';
+
+  // Simulate send
+  setTimeout(() => {
+    feedback.innerHTML = '<span style="color:#00d2ff;">✓ Message sent successfully! Thank you for reaching out.</span>';
+    btn.disabled = false;
+    btn.style.opacity = '1';
+    btn.innerHTML = '<span style="display:inline-flex;align-items:center;gap:8px;"><i data-lucide="check" style="width:16px;height:16px;"></i> Sent!</span>';
+    document.getElementById('contact-form').reset();
+    lucide.createIcons();
+    setTimeout(() => {
+      btn.innerHTML = '<span style="display:inline-flex;align-items:center;gap:8px;"><i data-lucide="send" style="width:16px;height:16px;"></i> Send Message</span>';
+      lucide.createIcons();
+      feedback.innerHTML = '';
+    }, 3000);
+  }, 1500);
+}
+
+// ===== INIT =====
+document.addEventListener('DOMContentLoaded', () => {
+  lucide.createIcons();
+  createParticles();
+  applyConfig(defaultConfig);
+
+  const wrapper = document.getElementById('app-wrapper');
+  wrapper.addEventListener('scroll', triggerReveals);
+  setTimeout(triggerReveals, 200);
+  setTimeout(animateSkillBars, 600);
+});
+</script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9de4e3d3307cde29',t:'MTc3Mzg0Mzc1MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
